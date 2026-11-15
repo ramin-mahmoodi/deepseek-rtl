@@ -2,6 +2,11 @@
 
 Persian and Arabic right-to-left text for the [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) Web UI, with the bundled Vazirmatn font and a header panel.
 
+<p align="center">
+  <img src="docs/panel-light.png" alt="The Persian RTL panel in the light theme" width="280">
+  <img src="docs/panel-dark.png" alt="The Persian RTL panel in the dark theme" width="280">
+</p>
+
 It installs as an ordinary Harness plugin, so removing it restores the interface exactly.
 
 ## Install
