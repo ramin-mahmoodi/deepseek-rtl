@@ -1,0 +1,7 @@
+{
+  "meta": {
+    "title": "Persian RTL",
+    "description": "Right-to-left chat text that follows each block's language, mirrored lists and quotes, the bundled Vazirmatn font, and an Alt+R toggle. Code stays left-to-right.",
+    "detail": "docs/DETAIL.md"
+  }
+}

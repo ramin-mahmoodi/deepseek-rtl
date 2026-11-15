@@ -1,0 +1,7 @@
+{
+  "meta": {
+    "title": "波斯语 RTL",
+    "description": "按段落语言自动排布从右到左的聊天文本，列表与引用一并镜像，内置 Vazirmatn 字体，并可用 Alt+R 切换。代码保持从左到右。",
+    "detail": "docs/DETAIL.md"
+  }
+}

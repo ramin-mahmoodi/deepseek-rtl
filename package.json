@@ -1,0 +1,61 @@
+{
+  "name": "deepseek-rtl",
+  "version": "1.0.0",
+  "description": "Persian and Arabic right-to-left text for the DeepSeek Harness Web UI, with the bundled Vazirmatn font, a header panel, and an Alt+R toggle",
+  "keywords": [
+    "deepseek-harness",
+    "dsh",
+    "dsh-plugin",
+    "rtl",
+    "persian",
+    "farsi",
+    "vazirmatn"
+  ],
+  "license": "MIT",
+  "author": "Ramin Mahmoodi",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ramin-mahmoodi/deepseek-rtl.git"
+  },
+  "homepage": "https://github.com/ramin-mahmoodi/deepseek-rtl#readme",
+  "bugs": {
+    "url": "https://github.com/ramin-mahmoodi/deepseek-rtl/issues"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=18.17"
+  },
+  "bin": {
+    "deepseek-rtl": "bin/cli.mjs"
+  },
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "bin",
+    "index.js",
+    "client.js",
+    "cordis.patch.yml",
+    "locale/*.json",
+    "docs",
+    "icon.svg",
+    "assets/Vazirmatn-Variable.woff2",
+    "assets/OFL.txt"
+  ],
+  "scripts": {
+    "build": "node tools/build-client.mjs",
+    "prepublishOnly": "node tools/build-client.mjs"
+  },
+  "dsh": {
+    "bundle": { "patch": "./cordis.patch.yml" },
+    "client": {
+      "platform": "web",
+      "immediately": true,
+      "inject": ["@deepseek-ai/dsh-client-ui-settings-general"]
+    }
+  }
+}
