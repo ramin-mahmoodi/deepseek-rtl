@@ -72,4 +72,4 @@ Edit `src/client.js`, run the build, then restart DeepSeek Harness.
 
 ## License
 
-MIT. Vazirmatn is distributed under the SIL Open Font License 1.1 (`assets/OFL.txt`).
+MIT for the plugin; the bundled Vazirmatn font is under the SIL Open Font License 1.1 (`assets/OFL.txt`). See [`NOTICE.md`](NOTICE.md).

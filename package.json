@@ -43,6 +43,7 @@
     "locale/*.json",
     "docs",
     "icon.svg",
+    "NOTICE.md",
     "assets/Vazirmatn-Variable.woff2",
     "assets/OFL.txt"
   ],
