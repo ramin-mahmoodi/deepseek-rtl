@@ -39,6 +39,8 @@ window.__ModuleLoader__.load({
     const SCOPE_SELECTOR = '[data-chat-flow]'
 
     const RTL_RE = /[\u0591-\u07FF\u08A0-\u08FF\uFB1D-\uFDFD\uFE70-\uFEFC]/
+    /** Latin letters and digits: the counterweight a right-to-left block is measured against. */
+    const LATIN_RE = /[A-Za-z0-9]/
     const STRONG_RE = /[A-Za-z\u0591-\u07FF\u08A0-\u08FF\uFB1D-\uFDFD\uFE70-\uFEFC]/
     const INVISIBLE_RE = /[\u200B-\u200F\u202A-\u202E\u2066-\u2069\uFEFF]/g
 
@@ -323,15 +325,28 @@ html[${HTML_RTL}] :is(.katex, .katex-display, math) {
     // ------------------------------------------------------------ direction
 
     /**
-     * Resolve a block's direction from its text. A paragraph that opens with a
-     * Latin product name is still a Persian paragraph, so any right-to-left
-     * letter wins — the same rule the reference patcher uses.
+     * Resolve a block's direction from how much of each script it carries.
+     *
+     * A bare "contains a right-to-left letter" rule flips an English answer
+     * merely because it quotes one Persian word, and the bidi algorithm then
+     * reorders every neutral character in that answer — arrows, dashes,
+     * separators — so the line reads backwards. Weighing the two scripts keeps
+     * a Persian paragraph right-to-left even when it opens with or names a
+     * Latin product, while an English-dominant block stays left-to-right and
+     * its arrows keep the order they were written in.
      * @param text - the block's text, code subtrees already removed.
-     * @returns 'rtl' when it contains a right-to-left letter; 'ltr' otherwise.
+     * @returns 'rtl' when right-to-left letters are at least as many as Latin
+     * ones; 'ltr' otherwise.
      */
     function directionFor(text) {
       if (prefs.force) return 'rtl'
-      return RTL_RE.test(text) ? 'rtl' : 'ltr'
+      let rtl = 0
+      let latin = 0
+      for (const character of text) {
+        if (RTL_RE.test(character)) rtl += 1
+        else if (LATIN_RE.test(character)) latin += 1
+      }
+      return rtl > 0 && rtl >= latin ? 'rtl' : 'ltr'
     }
 
     /**
@@ -439,6 +454,11 @@ html[${HTML_RTL}] :is(.katex, .katex-display, math) {
      * Resolve an editable surface's direction as you type. Unlike a paragraph,
      * a draft is judged by its first strong character only, so an English
      * sentence in a Persian conversation does not jump the caret.
+     *
+     * A draft with no letter yet — a fresh composer, or one holding only
+     * digits and punctuation — keeps the direction it already has, so the caret
+     * does not hop to the other edge on the first key. A fresh composer starts
+     * right-to-left: that is the text this page exists to write.
      * @param element - the editable surface.
      * @returns 'rtl' or 'ltr'.
      */
@@ -447,7 +467,8 @@ html[${HTML_RTL}] :is(.katex, .katex-display, math) {
       const text = readInputText(element).replace(INVISIBLE_RE, '')
       const first = STRONG_RE.exec(text)
       if (first !== null) return RTL_RE.test(first[0]) ? 'rtl' : 'ltr'
-      return RTL_RE.test(text) ? 'rtl' : 'ltr'
+      const current = element.getAttribute('dir')
+      return current === 'rtl' || current === 'ltr' ? current : 'rtl'
     }
 
     /** Restore every element this plugin changed. */
