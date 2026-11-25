@@ -1,6 +1,6 @@
 {
   "name": "deepseek-rtl",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Persian and Arabic right-to-left text for the DeepSeek Harness Web UI, with the bundled Vazirmatn font, a header panel, and an Alt+R toggle",
   "keywords": [
     "deepseek-harness",
